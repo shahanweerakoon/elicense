@@ -1,6 +1,6 @@
 "use client"
-import { useEffect, useState} from "react";
-import { Search, UserPlus, Users, FileText, LogOut } from 'lucide-react';
+import { useState} from "react";
+import { UserPlus, Users, FileText, LogOut } from 'lucide-react';
 
 
 export function Sidebar() {

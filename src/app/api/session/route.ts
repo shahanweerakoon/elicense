@@ -1,7 +1,7 @@
 import { getSession } from "@/lib";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:NextRequest){
+export async function GET(){
     const value = await getSession();
     const str = JSON.stringify(value);
     if(value == null){

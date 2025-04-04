@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 import {createClient} from "@supabase/supabase-js";
-const qrcode = require("qrcode");
+import * as qrcode from 'qrcode';
 
 cloudinary.config({
     cloud_name: "dv3ksjgct",
