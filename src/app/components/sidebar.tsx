@@ -6,13 +6,13 @@ import { UserPlus, Users, FileText, LogOut } from 'lucide-react';
 export function Sidebar() {
     const [activeTab, setActiveTab] = useState('dashboard');
     return(
-        <div className="w-64 bg-blue-800 text-white">
+        <div className="w-64 h-screen hidden  lg:block bg-blue-800 text-white">
                 <div className="p-6">
                   <h1 className="text-xl font-bold">DMT License System</h1>
                   <p className="text-sm text-blue-200 mt-1">Officer Portal</p>
                 </div>
                 
-                <nav className="mt-6 flex flex-col justify-between h-full ">
+                <nav className="mt-6 flex flex-col justify-between  ">
                     <div>
                     <div 
                     className={`flex items-center px-6 py-3 cursor-pointer ${activeTab === 'dashboard' ? 'bg-blue-900' : 'hover:bg-blue-700'}`}
