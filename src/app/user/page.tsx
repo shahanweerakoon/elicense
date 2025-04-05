@@ -1,19 +1,15 @@
 "use client"
 import { useState } from 'react';
-import { AlignJustify,CircleUserRound,QrCode } from 'lucide-react';
-import Image from 'next/image';
+import { CircleUserRound,QrCode } from 'lucide-react';
+// import Image from 'next/image';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
