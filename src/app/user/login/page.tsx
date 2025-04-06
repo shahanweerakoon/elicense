@@ -11,7 +11,7 @@ export default function UserLoginPage() {
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     console.log('Login attempt with:', { username, password });
-    const res = await fetch('/api/user/signin', {
+    const res = await fetch('/api/user/auth/signin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
