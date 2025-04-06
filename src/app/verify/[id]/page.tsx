@@ -3,13 +3,17 @@ import { useState, useEffect } from 'react';
 import { ShieldCheck } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function Verify() { 
+export default function Verify({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) { 
   const router = useRouter();
   const searchParams = useSearchParams(); // Use this to get dynamic route params
   const id = searchParams.get("id");
-  useEffect(()=>{
+  useEffect (()=>{
     
-    handleVerifyLicense(id as string);
+    handleVerifyLicense();
   },[])
     const [activeTab, setActiveTab] = useState('front');
 
@@ -24,7 +28,8 @@ export default function Verify() {
     const [backImageUrl, setBackImageUrl] = useState('');
 
 
-    const handleVerifyLicense = async(id:string)=>{
+    const handleVerifyLicense = async()=>{
+        const { id } = await params;
         const res = await fetch('/api/verify',{
           method: 'POST',
           headers: {
@@ -87,10 +92,7 @@ export default function Verify() {
                 </div>
                 
                 {/* Image Placeholder */}
-                <div className="bg-gray-200 h-48 rounded-md flex items-center justify-center mb-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-                  </svg>
+                <div className="bg-gray-500 h-48 rounded-md flex items-center justify-center mb-2" style={{ backgroundImage: `url('${frontImageUrl}')`, backgroundPosition:'center', backgroundSize:'contain' }}  >
                 </div>
               </div>
               
@@ -121,7 +123,7 @@ export default function Verify() {
                     </div>
                     <div>
                       <p className="text-gray-500 text-sm">License Number</p>
-                      <p className="font-medium text-gray-800">B1234567</p>
+                      <p className="font-medium text-gray-800">{licenseNumber}</p>
                     </div>
                   </div>
                   
@@ -134,7 +136,20 @@ export default function Verify() {
                     </div>
                     <div>
                       <p className="text-gray-500 text-sm">Issued Date</p>
-                      <p className="font-medium text-gray-800">2022-03-10</p>
+                      <p className="font-medium text-gray-800">{issueDate}</p>
+                    </div>
+                  </div>
+
+                  {/* Expire Date */}
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-gray-500 text-sm">Expire Date</p>
+                      <p className="font-medium text-gray-800">{expireDate}</p>
                     </div>
                   </div>
                   
@@ -147,7 +162,7 @@ export default function Verify() {
                     </div>
                     <div>
                       <p className="text-gray-500 text-sm">Date of Birth</p>
-                      <p className="font-medium text-gray-800">1990-02-08</p>
+                      <p className="font-medium text-gray-800">{dateOfBirth}</p>
                     </div>
                   </div>
                   
@@ -161,7 +176,7 @@ export default function Verify() {
                     </div>
                     <div>
                       <p className="text-gray-500 text-sm">Address</p>
-                      <p className="font-medium text-gray-800">123 Main Street, Colombo 5, Sri Lanka</p>
+                      <p className="font-medium text-gray-800">{address}</p>
                     </div>
                   </div>
                 </div>
