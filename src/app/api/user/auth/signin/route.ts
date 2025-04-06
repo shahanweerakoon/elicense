@@ -2,7 +2,7 @@ import { userLogin } from "@/lib";
 import { NextRequest } from "next/server";
 import { use } from "react";
 
-export default async function POST(request: NextRequest) {
+export async function POST(request: NextRequest) {
   // Get the form data
   console.log("Request body:", request.body);
   const body = await request.json();
