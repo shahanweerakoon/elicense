@@ -30,7 +30,7 @@ export async function POST(request) {
       //Verfify URL to QR code
       const headersList = request.headers;
       const host = headersList.get("host");
-      const url = "http://"+ host + "/veryfy/" + formData.get('licenseNumber');
+      const url = "https://"+ host + "/verify/" + formData.get('licenseNumber');
       const qrCodeDataUrl = await qrcode.toDataURL(url, {
         errorCorrectionLevel: 'H',
         type: 'image/png',
