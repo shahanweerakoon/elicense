@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { CircleUserRound,QrCode } from 'lucide-react';
 // import Image from 'next/image';
 import {
@@ -15,7 +15,37 @@ import {
 
 
 export default function UserPage() {
+  useEffect(() => {
+    handleUserProfile()
+  },[]);
     const [showQR, setShowQR] = useState(false);
+
+    const [fullName, setFullName] = useState('');
+    const [licenseNumber, setLicenseNumber] = useState(''); 
+    const [issueDate, setIssueDate] = useState('');
+    const [expireDate, setExpireDate] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [address, setAddress] = useState('');
+    const [qrImageUrl, setQrImageUrl] = useState('');
+    const [frontImageUrl, setFrontImageUrl] = useState('');
+    const [backImageUrl, setBackImageUrl] = useState('');
+
+
+    const handleUserProfile = async()=>{
+        const res = await fetch('/api/user/profile')
+    
+        const data = await res.json()
+        setFullName(data.full_name);
+        setLicenseNumber(data.license_number);
+        setIssueDate(data.issue_date);
+        setExpireDate(data.expire_date);
+        setDateOfBirth(data.date_of_birth);
+        setAddress(data.address);
+        setQrImageUrl(data.qr_image_url);
+        setFrontImageUrl(data.front_image_url);
+        setBackImageUrl(data.back_image_url);
+        console.log(data)
+    }
 
     return(
         <div className="min-h-screen bg-slate-100 flex flex-col">
@@ -56,8 +86,8 @@ export default function UserPage() {
         <div className="bg-dark-blue rounded-lg p-5 text-white">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-2xl font-semi-bold">Isuru Perera</h1>
-              <p className="text-sm">License No : B1234567</p>
+              <h1 className="text-2xl font-semi-bold">{fullName}</h1>
+              <p className="text-sm">License No : {licenseNumber}</p>
             </div>
             <span className="bg-[#C1F5A9] text-[#3C8F0F] rounded-full  text-xs font-medium px-4 py-2 rounded">Active</span>
           </div>
@@ -65,11 +95,11 @@ export default function UserPage() {
           <div className="flex justify-start gap-5 mt-6">
             <div>
               <p className="text-xs text-white">Issue Date</p>
-              <p className="text-sm">2020-03-10</p>
+              <p className="text-sm">{issueDate}</p>
             </div>
             <div>
               <p className="text-xs text-white">Expire Date</p>
-              <p className="text-sm">2030-03-09</p>
+              <p className="text-sm">{expireDate}</p>
             </div>
           </div>
         </div>
@@ -120,7 +150,7 @@ export default function UserPage() {
             </div>
             <div>
               <p className="text-sm text-gray-500">Date of Birth</p>
-              <p className="text-base">1990-02-08</p>
+              <p className="text-base">{dateOfBirth}</p>
             </div>
           </div>
           
@@ -133,7 +163,7 @@ export default function UserPage() {
             </div>
             <div>
               <p className="text-sm text-gray-500">Address</p>
-              <p className="text-base">123 Main Street, Colombo 5, Sri Lanka</p>
+              <p className="text-base">{address}</p>
             </div>
           </div>
         </div>

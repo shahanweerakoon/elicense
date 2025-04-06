@@ -1,14 +1,12 @@
-import { getSession, supabase } from "@/lib";
-import { console } from "inspector";
-import { NextRequest, NextResponse } from "next/server";
+import { supabase, userGetSession } from "@/lib";
+import { NextResponse } from "next/server";
 
-export async function POST(request:NextRequest){
-    const body = await request.json();
-    
-    const id = body.id as string;
-    console.log(id);
-    const { data, error } = await supabase.from("license_users").select("*").eq("license_number", id).single();
+export async function GET(request: Request) {
+    const session = await userGetSession();
+    if (!session) return new Response("Unauthorized", { status: 401 });
+    const { data, error } = await supabase.from("license_users").select("*").eq("id", session.user.id).single();
     if (error || !data) return new Response("User not found", { status: 404 });
+    
     const userProfile = {
         full_name: data.full_name,
         license_number: data.license_number,

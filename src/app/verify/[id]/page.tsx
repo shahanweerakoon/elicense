@@ -1,9 +1,54 @@
 "use client"
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ShieldCheck } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Verify() { 
+  const router = useRouter();
+  const searchParams = useSearchParams(); // Use this to get dynamic route params
+  const id = searchParams.get("id");
+  useEffect(()=>{
+    
+    handleVerifyLicense(id as string);
+  },[])
     const [activeTab, setActiveTab] = useState('front');
+
+    const [fullName, setFullName] = useState('');
+    const [licenseNumber, setLicenseNumber] = useState(''); 
+    const [issueDate, setIssueDate] = useState('');
+    const [expireDate, setExpireDate] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [address, setAddress] = useState('');
+    const [qrImageUrl, setQrImageUrl] = useState('');
+    const [frontImageUrl, setFrontImageUrl] = useState('');
+    const [backImageUrl, setBackImageUrl] = useState('');
+
+
+    const handleVerifyLicense = async(id:string)=>{
+        const res = await fetch('/api/verify',{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({id:id})
+        })
+        if (!res.ok) {
+            console.error('Error fetching data:', res.statusText);
+            return;
+        }
+    
+        const data = await res.json()
+        setFullName(data.full_name);
+        setLicenseNumber(data.license_number);
+        setIssueDate(data.issue_date);
+        setExpireDate(data.expire_date);
+        setDateOfBirth(data.date_of_birth);
+        setAddress(data.address);
+        setQrImageUrl(data.qr_image_url);
+        setFrontImageUrl(data.front_image_url);
+        setBackImageUrl(data.back_image_url);
+        console.log(data)
+    }
     return (
         <div className="bg-light-blue min-h-screen">
           {/* Header */}
@@ -63,7 +108,7 @@ export default function Verify() {
                     </div>
                     <div>
                       <p className="text-gray-500 text-sm">Full Name</p>
-                      <p className="font-medium text-gray-800">Isuru Perera</p>
+                      <p className="font-medium text-gray-800">{fullName}</p>
                     </div>
                   </div>
                   
