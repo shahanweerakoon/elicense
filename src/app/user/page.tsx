@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { CircleUserRound, QrCode, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 // import Image from 'next/image';
 import {
   DropdownMenu,
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function UserPage() {
+  const router = useRouter()
   useEffect(() => {
     handleUserProfile();
   }, []);
@@ -67,7 +69,7 @@ export default function UserPage() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-500 hover:text-red-500 active:text-red-500">
+            <DropdownMenuItem onClick={()=>router.push('/user/login')} className="text-red-500 hover:text-red-500 active:text-red-500">
               Log out
               <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
             </DropdownMenuItem>
