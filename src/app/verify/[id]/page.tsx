@@ -16,6 +16,7 @@ export default function Verify({
     handleVerifyLicense();
   },[])
     const [activeTab, setActiveTab] = useState('front');
+    const [licenseImg, setLicenseImg] = useState('')
 
     const [fullName, setFullName] = useState('');
     const [licenseNumber, setLicenseNumber] = useState(''); 
@@ -52,6 +53,7 @@ export default function Verify({
         setQrImageUrl(data.qr_image_url);
         setFrontImageUrl(data.front_image_url);
         setBackImageUrl(data.back_image_url);
+        setLicenseImg(data.front_image_url);
         console.log(data)
     }
     return (
@@ -79,20 +81,20 @@ export default function Verify({
                 <div className="flex mb-4">
                   <button 
                     className={`flex-1 py-2 text-center font-medium rounded-l-md ${activeTab === 'front' ? 'bg-blue-900 text-white' : 'bg-gray-200 text-gray-700'}`}
-                    onClick={() => setActiveTab('front')}
+                    onClick={() => {setActiveTab('front'); setLicenseImg(frontImageUrl)}}
                   >
                     Front Side
                   </button>
                   <button 
                     className={`flex-1 py-2 text-center font-medium rounded-r-md ${activeTab === 'back' ? 'bg-blue-900 text-white' : 'bg-gray-200 text-gray-700'}`}
-                    onClick={() => setActiveTab('back')}
+                    onClick={() => {setActiveTab('back') ; setLicenseImg(backImageUrl)}}
                   >
                     Back Side
                   </button>
                 </div>
                 
                 {/* Image Placeholder */}
-                <div className="bg-gray-500 h-48 rounded-md flex items-center justify-center mb-2" style={{ backgroundImage: `url('${frontImageUrl}')`, backgroundPosition:'center', backgroundSize:'contain' }}  >
+                <div className="bg-gray-500 w-full aspect-[4/3] rounded-md flex items-center justify-center mb-2" style={{ backgroundImage: `url('${licenseImg}')`, backgroundPosition:'center', backgroundSize:'contain' }}  >
                 </div>
               </div>
               

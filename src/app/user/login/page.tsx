@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function UserLoginPage() {
   const [username, setUsername] = useState('');
@@ -25,6 +26,10 @@ export default function UserLoginPage() {
     if (res.status === 200) {
       // Handle successful login, e.g., redirect to dashboard
       console.log('Login successful:', data);
+      toast('Login successful!', {
+        description: 'Redirecting to your dashboard...',
+      });
+
       // Redirect to dashboard or home page
       router.push('/user');
     } else {
@@ -53,7 +58,9 @@ export default function UserLoginPage() {
               className="w-full px-3 py-3 border border-border-blue rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               placeholder="Username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {setUsername(e.target.value) ; toast('Login successful!', {
+                description: 'Redirecting to your dashboard...',
+              });  }}
               required
             />
           </div>
