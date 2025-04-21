@@ -1,13 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Image from 'next/image';
+
 import { useRouter } from 'next/navigation';
 import { UserRoundPlus } from 'lucide-react';
 
 export default function LicenseRegistrationForm() {
+
+  useEffect(() => {
+          fetchSession();
+      }, []);
+  
+      
+      const fetchSession = async () => {
+        try {
+            const res = await fetch("/api/dmt/session", {
+                method: "GET",
+                credentials: "include",
+            });
+  
+            if (res.status === 200) {
+                const { session } = await res.json();
+                setLoading(false);
+            } else {
+                router.push("/login");
+            }
+        } catch (err) {
+            console.error(err);
+            router.push("/login");
+        }
+    };
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     fullName: '',
     dateOfBirth: '',
@@ -129,6 +156,17 @@ export default function LicenseRegistrationForm() {
       setIsLoading(false);
     }
   };
+
+  if(loading){
+    return(
+      <>
+        <div className="fixed inset-0  bg-opacity-20 flex items-center justify-center z-50">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-700"></div>
+        </div>
+      </>
+    )
+  }
+
 
   return (
     <div className="max-w-2xl  mx-auto p-4">
