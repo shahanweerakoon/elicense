@@ -46,7 +46,7 @@ export function DmtHeader() {
             <ShieldUser/>   
         </div>
         <div></div>
-        <div className={`absolute flex flex-col ${manuActive} h-screen w-64 bg-dark-blue left-0 top-0`}>
+        <div className={`absolute flex flex-col ${manuActive} h-screen fixed w-64 bg-dark-blue left-0 top-0`}>
             <div>
                 <AlignJustify onClick={()=>toggleMenu()} className="text-white  ml-6 mt-4" />
             </div>

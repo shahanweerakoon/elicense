@@ -6,7 +6,7 @@ import { UserPlus, Users, FileText, LogOut } from 'lucide-react';
 export function Sidebar() {
     const [activeTab, setActiveTab] = useState('dashboard');
     return(
-        <div className="w-64 h-screen fixed   bg-blue-800 text-white">
+        <div className="w-64 h-screen  sticky hidden top-0  bg-blue-800 text-white">
                 <div className="p-6">
                   <h1 className="text-xl font-bold">DMT License System</h1>
                   <p className="text-sm text-blue-200 mt-1">Officer Portal</p>

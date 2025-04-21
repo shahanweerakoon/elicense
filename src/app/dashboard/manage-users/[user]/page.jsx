@@ -82,7 +82,7 @@ export default function Page({ params }) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({license_number:'B123456789'})
+          body: JSON.stringify({license_number:user})
         });
         if (!response.ok) {
           throw new Error('Failed to fetch user data');
@@ -134,9 +134,34 @@ export default function Page({ params }) {
       });
     };
 
+    async function deleteUser() {
+      try {
+        const response = await fetch('/api/dmt/manage-users/single-user/delete', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ license_number: userData.license_number }), // Pass the license number of the user to be deleted
+        });
+    
+        const result = await response.json();
+    
+        if (response.ok) {
+          console.log('User deleted successfully:', result.message);
+          router.push('/dashboard/manage-users'); // Redirect to the manage users page after deletion
+          // Handle success (e.g., show a success message or refresh the UI)
+        } else {
+          console.error('Error deleting user:', result.error);
+          // Handle error (e.g., show an error message)
+        }
+      } catch (error) {
+        console.error('Error calling delete API:', error);
+        // Handle network or unexpected errors
+      }
+    }
+
 
     const handleSubmit = async (e) => {
-      e.preventDefault();
       setIsLoading(true);
       setError('');
       setSuccess('');
@@ -154,32 +179,36 @@ export default function Page({ params }) {
             throw new Error(`${field.replace(/([A-Z])/g, ' $1').toLowerCase()} is required`);
           }
         }
-        
-        // Create FormData for file uploads
-        const uploadData = new FormData();
-        
-        // Add all form fields
-        Object.keys(formData).forEach(key => {
-          uploadData.append(key, formData[key]);
-        })
-        
         // Send data to backend API
-        const response = await fetch('/api/dmt/createuser/1147', {
+        const response = await fetch('/api/dmt/manage-users/single-user/update', {
           method: 'POST',
-          body: uploadData,
+          body: JSON.stringify(formData),
         });
         
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.message || 'Failed to create user');
+          throw new Error(errorData.message || 'Failed to update user');
         }
         
         const result = await response.json();
-        setSuccess('User created successfully!');
+        setSuccess('User update successfully!');
         
         // Optional: Redirect after successful submission
         setTimeout(() => {
-          router.push('/dashboard');
+          setIsEditing(false);
+          const fetchData =  async()=>{
+            try{
+              const {user} = await params;
+              console.log(params);
+              await fetchUserData(user);
+              
+            }
+            catch(error){
+              console.error('Error fetching user data:',error);
+            }
+          };
+          fetchData()
+
         }, 2000);
         
       } catch (error) {
@@ -209,7 +238,7 @@ export default function Page({ params }) {
                         </DropdownMenuItem>
                       </DropdownMenuGroup>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem  className="text-red-500 hover:text-red-500 active:text-red-500">
+                      <DropdownMenuItem  className="text-red-500 hover:text-red-500 active:text-red-500" onClick={deleteUser}>
                         Delete User
                         <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                       </DropdownMenuItem>
@@ -230,7 +259,7 @@ export default function Page({ params }) {
           </div>
         )}
         
-        <form onSubmit={handleSubmit}>
+        <div>
           <div className="mb-6 flex flex-col gap-3">
             <h2 className="text-lg font-medium mb-4 pb-2 border-b">Personal Details</h2>
             
@@ -424,7 +453,7 @@ export default function Page({ params }) {
             <div>
             <button className="w-full mb-3  border border-blue-900 text-blue-900 py-3 rounded-md hover:bg-blue-100 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400" onClick={()=>{setIsEditing(false);}}>Cancel</button>
             <button
-              type="submit"
+              onClick={handleSubmit}
               disabled={isLoading}
               className="w-full bg-blue-900 text-button-text-color py-3 rounded-md hover:bg-blue-800 focus:outline-none cursor-pointer focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400"
             >
@@ -433,7 +462,7 @@ export default function Page({ params }) {
           </div>
           ):(<></>)}
           
-        </form>
+        </div>
       </div>
     );
 }
