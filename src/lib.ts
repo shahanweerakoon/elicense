@@ -182,6 +182,8 @@ export async function officerGetSession() {
   return await decrypt(session);
 }
 
+
+
 export async function officerrUpdateSession(request: NextRequest) {
   const session = request.cookies.get("session")?.value;
   if (!session) return;

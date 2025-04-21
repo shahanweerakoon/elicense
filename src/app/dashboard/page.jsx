@@ -5,6 +5,7 @@ import { Search, UserPlus, Users, FileText, LogOut } from 'lucide-react';
 
 export default function DashboardPage(){
     const [activeTab, setActiveTab] = useState('dashboard');
+    const [loading, setLoading] = useState(true);
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -16,10 +17,35 @@ export default function DashboardPage(){
     }
 
     
-    const fetchSession = async()=>{
-        console.log("function run")
-        await fetch("/api/session").then((res) => res.json()).then((data) => setData(data)).catch((err) => console.error("Error:", err));
-        console.log("function run");
+    const fetchSession = async () => {
+      try {
+          const res = await fetch("/api/dmt/session", {
+              method: "GET",
+              credentials: "include",
+          });
+
+          if (res.status === 200) {
+            alert(res.status)
+              const { session } = await res.json();
+              setData(session);
+              setLoading(false);
+          } else {
+              router.push("/login");
+          }
+      } catch (err) {
+          console.error(err);
+          router.push("/login");
+      }
+  };
+
+    if(loading){
+      return(
+        <>
+          <div className="flex h-96 bg-amber-200">
+            <h1>loading</h1>
+          </div>
+        </>
+      )
     }
     
 

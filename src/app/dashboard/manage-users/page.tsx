@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function ManageUserPage() {
@@ -11,6 +12,8 @@ export default function ManageUserPage() {
 
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     // Fetch users from the API
@@ -50,7 +53,9 @@ export default function ManageUserPage() {
             </thead>
             <tbody>
               {users.map((user, index) => (
-                <tr key={index} className="hover:bg-gray-50">
+                <tr key={index} className="hover:bg-gray-300 cursor-pointer" onClick={() => {
+                  router.push(`/dashboard/manage-users/${user.license_number}`);
+                }}>
                   <td className="px-4 py-2 border-b">{user.username}</td>
                   <td className="px-4 py-2 border-b">{user.license_number}</td>
                   <td className="px-4 py-2 border-b">{user.full_name}</td>

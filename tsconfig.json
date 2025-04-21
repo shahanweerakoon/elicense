@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/page.jsx", "src/app/dashboard/create-user/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/page.jsx", "src/app/dashboard/create-user/page.jsx", "src/app/dashboard/manage-users/[user]/page.jsx"],
   "exclude": ["node_modules"]
 }
