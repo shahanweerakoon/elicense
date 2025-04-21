@@ -80,7 +80,7 @@ export default function ManageUserPage() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Manage Users</h1>
-      <div className='flex justify-end py-4 '>
+      <div className='flex justify-start py-4 '>
         <input placeholder='Search User' value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} type="text" className='w-full max-w-sm  px-3 py-2 border-b-2 border-border-blue  focus:outline-none  focus:ring-blue-200"' />
       </div>
       {error ? (
