@@ -8,5 +8,5 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: "No session" }, { status: 401 });
     }
 
-    return NextResponse.json({ session, status: 200 });
+    
 }

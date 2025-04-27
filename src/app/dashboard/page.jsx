@@ -12,9 +12,7 @@ export default function DashboardPage(){
         fetchSession();
     }, []);
     const router = useRouter();
-    const clickHandle=()=>{
-        router.push("/login");
-    }
+    
 
     
     const fetchSession = async () => {

@@ -17,11 +17,12 @@ import {
 export default function UserPage() {
   const router = useRouter()
   useEffect(() => {
+    fetchSession();
     handleUserProfile();
   }, []);
 
+  const [loading, setLoading] = useState(true);
   const [showQR, setShowQR] = useState(false);
-
   const [fullName, setFullName] = useState('');
   const [licenseNumber, setLicenseNumber] = useState('');
   const [issueDate, setIssueDate] = useState('');
@@ -46,6 +47,34 @@ export default function UserPage() {
     setBackImageUrl(data.back_image_url);
     console.log(data);
   };
+
+  const fetchSession = async () => {
+    try {
+        const res = await fetch("/api/user/session", {
+            method: "GET",
+            credentials: "include",
+        });
+
+        if (res.status === 200) {
+            setLoading(false);
+        } else {
+            router.push("/login");
+        }
+    } catch (err) {
+        console.error(err);
+        router.push("/login");
+    }
+};
+
+if(loading){
+  return(
+    <>
+      <div className="fixed inset-0  bg-opacity-20 flex items-center justify-center z-50">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-700"></div>
+      </div>
+    </>
+  )
+}
 
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col">
