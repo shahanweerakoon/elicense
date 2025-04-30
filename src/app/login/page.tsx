@@ -2,14 +2,17 @@
 import { useState } from 'react';
 import { ShieldCheck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export default function DMTLoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isSigning, setIsSigning] = useState(false);
 
   const router = useRouter()
 
   const handleSubmit = async(e: React.FormEvent) => {
+    setIsSigning(true)
     e.preventDefault();
     console.log('Login attempt with:', { username, password });
     const res = await fetch('/api/dmt/auth/signin', {
@@ -26,6 +29,15 @@ export default function DMTLoginPage() {
     if (res.status === 200) {
       // Handle successful login, e.g., redirect to dashboard
       console.log('Login successful:', data);
+      toast.success('Login successful!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       
 
       // Redirect to dashboard or home page
@@ -33,8 +45,17 @@ export default function DMTLoginPage() {
     } else {
       // Handle login error, e.g., show error message
       console.error('Login failed:', data.error);
+      toast.error(data.error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
-
+    setIsSigning(false);
     // Add authentication logic here
   };
 
@@ -78,7 +99,7 @@ export default function DMTLoginPage() {
             className="w-full py-3 text-white bg-navy-900 rounded-md hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600"
             style={{ backgroundColor: '#0a1744' }}
           >
-            Sign in
+            {isSigning ? "Signing..." : "Sign in"}
           </button>
         </form>
         

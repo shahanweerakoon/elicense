@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState} from "react";
 import { Search, UserPlus, Users, FileText, LogOut } from 'lucide-react';
 
+
 export default function DashboardPage(){
     const [activeTab, setActiveTab] = useState('dashboard');
     const [loading, setLoading] = useState(true);
@@ -27,6 +28,7 @@ export default function DashboardPage(){
               setData(session);
               setLoading(false);
           } else {
+              console.error("Session not found");
               router.push("/login");
           }
       } catch (err) {
