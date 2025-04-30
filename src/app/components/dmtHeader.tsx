@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 export function DmtHeader() {
     const router = useRouter();
@@ -37,6 +38,53 @@ export function DmtHeader() {
         key: 'create',
       },
     ];
+
+    const logout = async () => {
+        try{
+            const res = fetch('/api/dmt/logout',{
+                method: 'GET',
+                credentials: 'include'
+            });
+            if((await res).status === 200){
+                
+                toast.success('Logout successful!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                  console.log("Logout successful!")
+                  router.push('/login')
+                  
+            }
+            else{
+                toast.error('Logout failed!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+            }
+        }
+        catch(err: any){
+            console.error(err.message);
+            toast.error('Logout failed!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+        }
   
     return(
         <div>
@@ -71,13 +119,13 @@ export function DmtHeader() {
             })}
             </div>
 
-            <div className="flex items-center  text-white px-6 py-3 cursor-pointer hover:bg-blue-700 mt-auto">
+            <div onClick={()=>logout()} className="flex items-center  text-white px-6 py-3 cursor-pointer hover:bg-blue-700 mt-auto">
             <LogOut size={18} className="mr-3" />
-            <span onClick={()=>router.push('/login')}>Logout</span>
+            <span >Logout</span>
             </div>
         </nav>
         </div>
         </div>
         
-    )
+    );
 }

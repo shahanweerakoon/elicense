@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { CircleUserRound, QrCode, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 // import Image from 'next/image';
 import {
   DropdownMenu,
@@ -66,6 +67,53 @@ export default function UserPage() {
     }
 };
 
+const logout = async () => {
+        try{
+            const res = fetch('/api/user/logout',{
+                method: 'GET',
+                credentials: 'include'
+            });
+            if((await res).status === 200){
+                
+                toast.success('Logout successful!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                  console.log("Logout successful!")
+                  router.push('/user/login');
+
+            }
+            else{
+                toast.error('Logout failed!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+            }
+        }
+        catch(err: any){
+            console.error(err.message);
+            toast.error('Logout failed!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
+        }
+
 if(loading){
   return(
     <>
@@ -98,7 +146,7 @@ if(loading){
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={()=>router.push('/user/login')} className="text-red-500 hover:text-red-500 active:text-red-500">
+            <DropdownMenuItem onClick={()=>logout()} className="text-red-500 hover:text-red-500 active:text-red-500">
               Log out
               <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
             </DropdownMenuItem>

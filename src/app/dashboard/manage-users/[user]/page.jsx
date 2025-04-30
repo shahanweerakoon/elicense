@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { UserRoundPlus } from 'lucide-react';
 import { EllipsisVertical } from 'lucide-react';
+import { toast } from 'react-toastify';
 // import Image from 'next/image';
 import {
   DropdownMenu,
@@ -16,6 +17,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 
 export default function Page({ params }) {
   useEffect(()=>{
@@ -187,11 +189,31 @@ export default function Page({ params }) {
         
         if (!response.ok) {
           const errorData = await response.json();
+          toast.error("Failed to update user",{
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+
           throw new Error(errorData.message || 'Failed to update user');
+          
         }
         
         const result = await response.json();
         setSuccess('User update successfully!');
+        toast.success('User update successfully!', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         
         // Optional: Redirect after successful submission
         setTimeout(() => {
@@ -213,6 +235,15 @@ export default function Page({ params }) {
         
       } catch (error) {
         setError(error.message);
+        toast.error(error.message,{
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       } finally {
         setIsLoading(false);
       }
@@ -232,8 +263,8 @@ export default function Page({ params }) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56">
                       <DropdownMenuGroup>
-                        <DropdownMenuItem onClick={()=>{isEditing ? setIsEditing(false): setIsEditing(true)}}>
-                          {isEditing ? 'Save Changes' : 'Edit User'}
+                        <DropdownMenuItem onClick={()=>{setIsEditing(true)}}>
+                        Edit User
                           <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                         </DropdownMenuItem>
                       </DropdownMenuGroup>
