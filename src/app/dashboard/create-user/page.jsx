@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import { useRouter } from 'next/navigation';
 import { UserRoundPlus } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 export default function LicenseRegistrationForm() {
 
@@ -139,19 +140,50 @@ export default function LicenseRegistrationForm() {
       
       if (!response.ok) {
         const errorData = await response.json();
+        toast.error("Failed to create user",{
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
         throw new Error(errorData.message || 'Failed to create user');
       }
       
       const result = await response.json();
       setSuccess('User created successfully!');
+      toast.success("User created successfully!",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
       
       // Optional: Redirect after successful submission
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/dashboard/manage-user');
       }, 2000);
       
     } catch (error) {
       setError(error.message);
+      toast.success(error.message,
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      )
     } finally {
       setIsLoading(false);
     }
