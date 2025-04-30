@@ -173,7 +173,7 @@ export default function LicenseRegistrationForm() {
       
     } catch (error) {
       setError(error.message);
-      toast.success(error.message,
+      toast.error(error.message,
         {
           position: "top-right",
           autoClose: 5000,
