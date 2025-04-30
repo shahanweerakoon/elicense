@@ -1,6 +1,7 @@
 "use client";
 import {  useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
 // import { getSession, login, logout } from "@/lib";
 
 export default function Page() {
@@ -19,6 +20,8 @@ export default function Page() {
 
   
   return (
-    <div></div>
+    <div>
+      <ToastContainer/>
+    </div>
   );
 }

@@ -1,15 +1,18 @@
 "use client";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 export default function UserLoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isSigning, setIsSigning] = useState(false)
 
   const router = useRouter()
 
   const handleSubmit = async(e: React.FormEvent) => {
+    setIsSigning(true);
     e.preventDefault();
     console.log('Login attempt with:', { username, password });
     const res = await fetch('/api/user/auth/signin', {
@@ -26,8 +29,18 @@ export default function UserLoginPage() {
     if (res.status === 200) {
       // Handle successful login, e.g., redirect to dashboard
       console.log('Login successful:', data);
-      toast('Login successful!', {
-        description: 'Redirecting to your dashboard...',
+
+      // toast('Login successful!', {
+      //   description: 'Redirecting to your dashboard...',
+      // });
+      toast.success('Login successful!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
 
       // Redirect to dashboard or home page
@@ -35,7 +48,17 @@ export default function UserLoginPage() {
     } else {
       // Handle login error, e.g., show error message
       console.error('Login failed:', data.error);
+      toast.error(data.error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
+    setIsSigning(false);
 
     // Add authentication logic here
   };
@@ -58,9 +81,7 @@ export default function UserLoginPage() {
               className="w-full px-3 py-3 border border-border-blue rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               placeholder="Username"
               value={username}
-              onChange={(e) => {setUsername(e.target.value) ; toast('Login successful!', {
-                description: 'Redirecting to your dashboard...',
-              });  }}
+              onChange={(e) => {setUsername(e.target.value)  }}
               required
             />
           </div>
@@ -76,19 +97,25 @@ export default function UserLoginPage() {
               required
             />
           </div>
-          
-          <button
+          {isSigning ? (
+            <button
             type="submit"
-            className="w-full py-3 text-white bg-navy-900 rounded-md hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600"
+            className="w-full py-3 text-white cursor-pointer rounded-md hover:bg-navy-400 focus:outline-none focus:ring-2 focus:ring-offset-2 bg-blue-800  focus:ring-blue-600"
+            style={{ backgroundColor: '#0a1744' }}
+          >
+            Signing...
+          </button>
+          ) :(
+            <button
+            type="submit"
+            className="w-full py-3 text-white cursor-pointer bg-navy-900 rounded-md hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600"
             style={{ backgroundColor: '#0a1744' }}
           >
             Sign in
           </button>
+          )}
+          
         </form>
-        
-        {/* <div className="mt-4 text-center">
-          <a href="#" className="text-sm text-blue-600 hover:underline">Forgot password?</a>
-        </div> */}
       </div>
     </div>
   );
