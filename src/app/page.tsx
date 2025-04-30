@@ -15,9 +15,6 @@ export default function Page() {
     
     router.push("/user/login");
   }
-  // const session = await getSession();
-  // const route = session ? "/dashboard" : "/login";
-
   
   return (
     <div>
