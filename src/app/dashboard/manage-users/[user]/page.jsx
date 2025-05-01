@@ -120,7 +120,7 @@ export default function Page({ params }) {
             expireDate: data.expire_date,
           }
         );
-        setLicenseImg(userData.front_image_url);
+        setLicenseImg(data.front_image_url);
         console.log(data);
       }
       catch(error) {
