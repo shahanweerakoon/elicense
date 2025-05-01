@@ -9,7 +9,7 @@ export default function UserLoginPage() {
   const [password, setPassword] = useState('');
   const [isSigning, setIsSigning] = useState(false)
 
-  const router = useRouter()
+  const router = useRouter();
 
   const handleSubmit = async(e: React.FormEvent) => {
     setIsSigning(true);
@@ -56,6 +56,7 @@ export default function UserLoginPage() {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
+      
       });
     }
     setIsSigning(false);

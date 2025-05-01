@@ -88,9 +88,9 @@ export function DmtHeader() {
   
     return(
         <div>
-            <div className="flex items-center justify-between py-3.5 px-6 h-fit w-full">
-            <AlignJustify onClick={()=>toggleMenu()}/>
-            <img src="/logo.png" alt="Logo" className="w-28  mr-2" />
+            <div className="flex items-center justify-between md:justify-end py-3.5 px-6 h-fit w-full">
+            <AlignJustify className='md:hidden' onClick={()=>toggleMenu()}/>
+            <img src="/logo.png"  alt="Logo" className="w-28  mr-2 md:hidden" />
             <ShieldUser/>   
         </div>
         <div></div>
